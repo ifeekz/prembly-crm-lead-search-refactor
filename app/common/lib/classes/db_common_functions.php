@@ -1,6 +1,7 @@
 <?php
 
 declare(strict_types=1);
+
 namespace App\DB;
 
 use \PDO;
@@ -30,6 +31,14 @@ class DB_Common_Functions
         return $stmt->execute($data);
     }
 
+    public function countLeadsBy(string $field, string $text, int $ownerId): int
+    {
+        $sql = "SELECT COUNT(*) FROM leads WHERE :field LIKE :txt AND owner_id = :owner_id";
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute(['field' => $field, 'txt' => "%$text%", 'owner_id' => $ownerId]);
+        return (int) $stmt->fetchColumn();
+    }
+
     /**
      * Get human-readable search criteria text
      */
@@ -41,7 +50,8 @@ class DB_Common_Functions
             'phone_number' => 'Phone Number',
             'email'        => 'Email',
             'crm_id'       => 'CRM ID',
-            'mkt_id'       => 'Marketing ID'
+            'mkt_id'       => 'Marketing ID',
+            'company_name' => 'Company Name'
         ];
         return $map[$searchBy] ?? 'First Name';
     }
@@ -79,6 +89,11 @@ class DB_Common_Functions
         return $this->searchLeads("mkt_id", $text, $ownerId);
     }
 
+    public function searchLeadsByCompanyName(string $text, int $ownerId): array
+    {
+        return $this->searchLeads("company_name", $text, $ownerId);
+    }
+
     /**
      * Search with offset (pagination)
      */
@@ -100,6 +115,11 @@ class DB_Common_Functions
     public function searchLeadsByEmailWithOffset(string $text, int $ownerId, int $offset): array
     {
         return $this->searchLeads("email", $text, $ownerId, $offset);
+    }
+
+    public function searchLeadsByCompanyNameWithOffset(string $text, int $ownerId, int $offset): array
+    {
+        return $this->searchLeads("company_name", $text, $ownerId, $offset);
     }
 
     /**

@@ -37,43 +37,18 @@ class LeadSearchService
 
         $totalCount = $this->getTotalCount($searchBy, $searchText, $ownerId);
         $pagenation = $this->util->construct_pagination($currentPage, $totalCount, $this->pageSize);
-        // $totalPages = (int) ceil($totalCount / $this->pageSize);
-
-        // if ($currentPage > $totalPages && $totalPages > 0) {
-        //     $currentPage = $totalPages;
-        // }
-
         $offset = ($currentPage - 1) * $this->pageSize;
         $leads  = $this->getLeads($searchBy, $searchText, $ownerId, $offset);
 
         return [
             'rows'       => $leads,
             'pagenation'  => $pagenation,
-            'searchBy'    => $searchBy,
-            'searchText'  => $searchText
         ];
     }
 
     private function getTotalCount(string $searchBy, string $searchText, int $ownerId): int
     {
-        if ($searchText === '') {
-            return 0;
-        }
-        $method = match ($searchBy) {
-            'fname'        => 'searchLeadsByFirstName',
-            'lname'        => 'searchLeadsByLastName',
-            'phone_number' => function($txt, $id) { return $this->db->searchLeadsByPhone($this->util->formatPhoneNumber($txt), $id); },
-            'email'        => function($txt, $id) { return $this->db->searchLeadsByEmail(urldecode($txt), $id); },
-            'crm_id'       => 'searchLeadsByCRMId',
-            'mkt_id'       => 'searchLeadsByMktId',
-            default        => 'searchLeadsByFirstName'
-        };
-
-        $results = is_string($method)
-            ? $this->db->$method($searchText, $ownerId)
-            : $method($searchText, $ownerId);
-
-        return count($results);
+        return $this->db->countLeadsBy($searchBy, $searchText, $ownerId);
     }
 
     private function getLeads(string $searchBy, string $searchText, int $ownerId, int $offset): array
@@ -88,6 +63,7 @@ class LeadSearchService
             'email'        => function($txt, $id, $off) { return $this->db->searchLeadsByEmailWithOffset(urldecode($txt), $id, $off); },
             'crm_id'       => 'searchLeadsByCRMId',
             'mkt_id'       => 'searchLeadsByMktId',
+            'company_name' => 'searchLeadsByCompanyName',
             default        => 'searchLeadsByFirstNameWithOffset'
         };
 
