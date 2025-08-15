@@ -354,3 +354,5 @@ prembly-crm-refactor/
 - Add authentication & role-based access to the page.
 - Implement CSRF validation for state-changing endpoints.
 - Introduce a ViewModel or templating engine (e.g., Twig) for even cleaner views.
+- Introduce enviroment variable (`.env`) for app sensitive settings like database credentials, against hardcording in the config.
+- Use `.gitignore` to prevent development files from being pushed to `git`.
