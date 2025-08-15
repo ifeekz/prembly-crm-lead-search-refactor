@@ -15,7 +15,9 @@ I applied a clear separation of concerns so that business logic, database access
   - Interacting with database helper classes (`DB_Common_Functions`)
   - Returning results in a neutral data format (arrays or objects)
 
-This ensures that no database logic is mixed into the views. 2. **Data Access Layer (Models & DB Utilities)**
+  This ensures that no database logic is mixed into the views. 
+
+2. **Data Access Layer (Models & DB Utilities)**
 
 - `app/Models/Lead.php` (Lead-specific queries) - To hndle queries on the leads table — it contains all SQL for searching and counting leads, and inserting the leads search logs.
 - `core/Prembly/Crm/DB/DB_Common_Functions.php` (generic DB helpers) - abstracts generic PDO operations (preparing statements, which could be extended) so they can be reused by other models.
@@ -24,7 +26,7 @@ This ensures that no database logic is mixed into the views. 2. **Data Access La
 
 - These files **never handle HTML output** or direct user input — they just talk to the database and as helpers. These classes are **framework-agnostic** and can be reused in other projects.
 
-**NOTE**: I maintained the class naming convention in `core/Prembly/Crm/` as used in the legacy code for clarity sake.
+  **NOTE**: I maintained the class naming convention in `core/Prembly/Crm/` as used in the legacy code for clarity sake.
 
 3. Configuration Layer (`config/db.php`)
 
