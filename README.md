@@ -347,7 +347,7 @@ prembly-crm-refactor/
 └── README.md
 ```
 
-## Future Improvements
+## 7. Future Improvements
 
 - Add unit tests (PHPUnit) and contract tests for external integrations.
 - Extract pagination into a reusable component.
