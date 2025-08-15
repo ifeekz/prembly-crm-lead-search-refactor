@@ -2,7 +2,7 @@
 
 This repo demonstrates how to refactor a legacy codebase in `task/search_leads.php` into a **clean controller + service + views** architecture with **modern PHP** practices.
 
-## Refactoring Overview
+## 1. Refactoring Overview
 
 I applied a clear separation of concerns so that business logic, database access, and presentation layers are independent and maintainable.
 
@@ -78,7 +78,7 @@ This now clearly shows:
 - **Testability** – Business logic can be unit tested without rendering HTML.
 - **Cleaner Code** – Views focus solely on output, services focus solely on logic.
 
-## Implementation of the New “Company Name” Search Feature
+## 2. Implementation of the New “Company Name” Search Feature
 
 The refactored architecture made the process of adding `Company Name` as a new search criterion straightforward because the search logic, data access, and presentation layer were already cleanly separated.
 
@@ -159,7 +159,7 @@ In other words:
 > *Before*: 20–30 minutes of copy-paste and debug.
 > *Now*: 5 minutes and zero spaghetti sauce.
 
-## Security Vulnerabilities && Modernization
+## 3. Security Vulnerabilities && Modernization
 
 ### Security Vulnerabilities in Legacy Code
 
