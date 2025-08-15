@@ -24,6 +24,8 @@ This ensures that no database logic is mixed into the views. 2. **Data Access La
 
 - These files **never handle HTML output** or direct user input — they just talk to the database and as helpers. These classes are **framework-agnostic** and can be reused in other projects.
 
+**NOTE**: I maintained the class naming convention in `core/Prembly/Crm/` as used in the legacy code for clarity sake.
+
 3. Configuration Layer (`config/db.php`)
 
 - Stores database connection details (in this case, SQLite file path).
