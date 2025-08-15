@@ -14,17 +14,17 @@ declare(strict_types=1);
 
 <body>
   <main role="main" class="container-fluid">
-    <?php include_once __DIR__ . '/partials/search_leads_view.php'; ?>
+    <!-- <?php include_once __DIR__ . '/partials/search_leads_view.php'; ?> -->
 
     <div class="table-responsive">
       <div class="table-center">
-        <?php require_once __DIR__ . '/partials/pagination_view.php'; ?>
+        <?php require __DIR__ . '/partials/pagination_view.php'; ?>
       </div>
 
       <?php require_once __DIR__ . '/partials/search_results_view.php'; ?>
 
       <div class="table-center">
-        <?php require_once __DIR__ . '/partials/pagination_view.php'; ?>
+        <?php require __DIR__ . '/partials/pagination_view.php'; ?>
       </div>
     </div>
 

@@ -1,39 +1,59 @@
-<?php
-declare(strict_types=1);
-
-function esc(string $v): string { return htmlspecialchars($v, ENT_QUOTES, 'UTF-8'); }
-function highlight(?string $text, string $q): string {
-    if ($text === null || $q === '') return esc((string)$text);
-    $escaped = esc($text);
-    $pattern = '/' . preg_quote($q, '/') . '/i';
-    return preg_replace($pattern, '<mark>$0</mark>', $escaped);
-}
-?>
-<table class="table table-striped table-hover mb-0">
-  <thead class="table-light">
-    <tr>
-      <th>#</th>
+<h1><?= htmlspecialchars($title) ?></h1>
+<table class="table table-sm table-hover table-bordered" width="98%">
+  <thead>
+    <tr class="light-blue-bg-1 center-text">
+      <th>Date</th>
       <th>Name</th>
-      <th>Email</th>
-      <th>Phone</th>
+      <th>Main Phone</th>
+      <th>Second Phone</th>
+      <th>Gender</th>
+      <th>E-Mail</th>
+      <th>City</th>
+      <th>State</th>
+      <th>Office</th>
       <th>Status</th>
-      <th>Created</th>
     </tr>
   </thead>
   <tbody>
-  <?php if (empty($rows)): ?>
-    <tr><td colspan="6" class="text-center py-4">No results</td></tr>
-  <?php else: ?>
-    <?php foreach ($rows as $i => $r): ?>
+    <?php if (!empty($rows)): ?>
+      <?php foreach ($rows as $lead): ?>
+        <tr>
+          <td>
+            <?= date("m/d/Y", htmlspecialchars(strtotime($lead->real_date))) ?>
+          </td>
+          <td>
+            <?= htmlspecialchars($lead->full_name ?: $lead->fname . ' ' . $lead->lname) ?>
+          </td>
+          <td>
+            <?= htmlspecialchars($lead->mainPhone) ?>
+          </td>
+          <td>
+            <?= htmlspecialchars($lead->secondPhoneArea != "" && $lead->secondPhone != "" ? $lead->secondPhone : "") ?>
+          </td>
+          <td>
+            <?= htmlspecialchars($lead->sex) ?>
+          </td>
+          <td>
+            <?= htmlspecialchars($lead->email) ?>
+          </td>
+          <td>
+            <?= htmlspecialchars($lead->city) ?>
+          </td>
+          <td>
+            <?= htmlspecialchars($lead->state) ?>
+          </td>
+          <td>
+            <?= htmlspecialchars($lead->name) ?>
+          </td>
+          <td>
+            <?= htmlspecialchars($lead->current_status) ?>
+          </td>
+        </tr>
+      <?php endforeach; ?>
+    <?php else: ?>
       <tr>
-        <td><?= (int)$r['id'] ?></td>
-        <td><?= highlight($r['name'] ?? '', $q) ?></td>
-        <td><?= highlight($r['email'] ?? '', $q) ?></td>
-        <td><?= highlight($r['phone'] ?? '', $q) ?></td>
-        <td><?= esc($r['status'] ?? '') ?></td>
-        <td><?= esc($r['created_at'] ?? '') ?></td>
+        <td colspan="10" class="text-center">No results found.</td>
       </tr>
-    <?php endforeach; ?>
-  <?php endif; ?>
+    <?php endif; ?>
   </tbody>
 </table>

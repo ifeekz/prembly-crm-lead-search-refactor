@@ -2,21 +2,24 @@
 
 declare(strict_types=1);
 
-namespace App\DB;
+namespace App\Models;
 
 use \PDO;
+use Prembly\Crm\DB\DB_Common_Functions;
 
 /**
  * DB_Common_Functions class provides common database functions for lead searches,
  * storing search criteria, and retrieving leads based on various fields.
  */
-class DB_Common_Functions
+class Lead
 {
-    private PDO $pdo;
+    private DB_Common_Functions $db;
+
 
     public function __construct(PDO $pdo)
     {
-        $this->pdo = $pdo;
+        $db = new DB_Common_Functions($pdo);
+        $this->db = $db;
     }
 
     /**
@@ -27,14 +30,14 @@ class DB_Common_Functions
         $fieldList = implode(", ", $fields);
         $placeholders = implode(", ", array_fill(0, count($fields), "?"));
         $sql = "INSERT INTO {$tableName} ({$fieldList}) VALUES ({$placeholders})";
-        $stmt = $this->pdo->prepare($sql);
+        $stmt = $this->db->query($sql);
         return $stmt->execute($data);
     }
 
     public function countLeadsBy(string $field, string $text, int $ownerId): int
     {
         $sql = "SELECT COUNT(*) FROM leads WHERE :field LIKE :txt AND owner_id = :owner_id";
-        $stmt = $this->pdo->prepare($sql);
+        $stmt = $this->db->query($sql);
         $stmt->execute(['field' => $field, 'txt' => "%$text%", 'owner_id' => $ownerId]);
         return (int) $stmt->fetchColumn();
     }
@@ -137,7 +140,7 @@ class DB_Common_Functions
             $sql .= " LIMIT :offset, :limit";
         }
 
-        $stmt = $this->pdo->prepare($sql);
+        $stmt = $this->db->query($sql);
         $stmt->bindValue(':search', "%{$text}%", PDO::PARAM_STR);
         $stmt->bindValue(':ownerId', $ownerId, PDO::PARAM_INT);
 
