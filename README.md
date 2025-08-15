@@ -252,7 +252,7 @@ If your project grows to dozens or hundreds of classes, namespaces make it easy 
     ```
     cleanly imports the class without manually including its file.
 
-## Getting Started
+## 4. Getting Started
 
 1. PHP 8.1+ recommended.
 2. Copy files to your environment.
@@ -295,7 +295,7 @@ If your project grows to dozens or hundreds of classes, namespaces make it easy 
    ```
 5. Open `http://localhost:8000/search_leads.php`
 
-## Adapting to MySQL
+## 5. Adapting to MySQL
 
 Edit `config/db.php`:
 
@@ -316,7 +316,7 @@ CREATE INDEX idx_leads_email ON leads(email);
 CREATE INDEX idx_leads_phone ON leads(mainPhone);
 ```
 
-## Folder Structure
+## 6. Folder Structure
 
 ```
 prembly-crm-refactor/
